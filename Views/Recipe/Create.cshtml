@@ -1,0 +1,90 @@
+﻿@model Recipe
+@{
+    ViewData["Title"] = "New recipe";
+}
+
+<div class="d-flex flex-column" id="content-wrapper">
+    <div id="content">
+        <div class="container-fluid">
+            @if (TempData["RecipeName"] is not null)
+            {
+                <h3 class="text-dark mb-1">@ViewBag.RecipeName</h3>
+            }
+            else
+            {
+                <h3 class="text-dark mb-1">New recipe</h3>
+            }
+        </div>
+        <div class="card">
+            <div class="card-body">
+                @using (Html.BeginForm("Create", "Recipe", FormMethod.Post))
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Recipe info</h4>
+                            <div class="input-group"><span class="input-group-text">Name</span><input class="form-control" type="text" asp-for="Name" value=@Model.Name></div>
+                            @if (ViewData.ModelState["Name"] != null && ViewData.ModelState["Name"].Errors.Any())
+                            {
+                                <div role="alert" class="alert alert-danger">
+                                    <span>@Html.ValidationMessageFor(m => m.Name)</span>
+                                </div>
+                            }
+                            <div class="input-group"><span class="input-group-text">Description</span><textarea class="form-control" asp-for="Description">@Model.Description</textarea></div>
+                            @if (ViewData.ModelState["Description"] != null && ViewData.ModelState["Description"].Errors.Any())
+                            {
+                                <div role="alert" class="alert alert-danger">
+                                    <span>@Html.ValidationMessageFor(m => m.Description)</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Ingredients</h4>
+                            @if (ViewData.ModelState["Ingredients"] != null && ViewData.ModelState["Ingredients"].Errors.Any())
+                            {
+                                <div role="alert" class="alert alert-danger">
+                                    <span>@Html.ValidationMessageFor(m => m.Ingredients)</span>
+                                </div>
+                            }
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>Unit</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Ingredients.Count; i++)
+                                        {
+                                            @Html.ValidationMessageFor(m => m.Ingredients[i].Name, null, new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(m => m.Ingredients[i].Quantity, null, new { @class = "text-danger" })
+                                            @Html.ValidationMessageFor(m => m.Ingredients[i].Unit, null, new { @class = "text-danger" })
+                                            <tr>
+                                                <td>@Html.TextBoxFor(x => x.Ingredients[i].Name)</td>
+                                                <td>@Html.TextBoxFor(x => x.Ingredients[i].Quantity)</td>
+                                                <td>@Html.TextBoxFor(x => x.Ingredients[i].Unit)</td>
+                                                <td>
+                                                    <a class="btn btn-danger pull-right" role="button" asp-controller="Recipe" asp-action="DeleteIngredient" asp-route-id=@i><i class="fa fa-remove"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div><input class="btn btn-primary" type="submit" name="command" value="Add" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input class="btn btn-primary" type="submit" name="command" value="Submit" />
+                            <a class="btn btn-primary pull-right" role="button" style="background: var(--bs-pink);" asp-controller="Recipe" asp-action="Cancel">Cancel</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

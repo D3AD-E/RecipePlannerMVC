@@ -1,0 +1,75 @@
+﻿@model MenuModel
+@{
+    ViewData["Title"] = "Menu";
+}
+<div class="d-flex flex-column" id="content-wrapper">
+    <div id="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">All recipes</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var recipe in Model.AllRecipes)
+                                    {
+                                        <tr>
+                                            <td>@recipe.Name</td>
+                                            <td>
+                                                <a class="btn btn-success pull-right" role="button" asp-controller="Menu" asp-action="ChooseRecipe" asp-route-name=@recipe.Name><i class="fa fa-plus"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Chosen recipes</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var recipe in Model.ChosenRecipes)
+                                    {
+                                        <tr>
+                                            <td>@recipe</td>
+                                            <td>
+                                                <a class="btn btn-danger pull-right" role="button" asp-controller="Menu" asp-action="RemoveRecipe" asp-route-name=@recipe><i class="fa fa-minus"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Required ingredients</h4>
+                        <div>
+                            @foreach (var ingredient in Model.Ingredients)
+                            {
+                                <p>@ingredient.ToString()</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model List<Recipe>
+<div class="d-flex flex-column" id="content-wrapper">
+    <div id="content">
+        <div class="container-fluid">
+            <h3 class="text-dark mb-4">Recipes</h3>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 text-nowrap">
+                            <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-md-end dataTables_filter" id="dataTable_filter"></div>
+                        </div>
+                    </div>
+                    @if (ViewBag.Success is not null)
+                    {
+                        <div role="alert" class="alert alert-success">
+                            <span>@ViewBag.Success</span>
+                        </div>
+                    }
+                    <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                        <table class="table my-0" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var recipe in Model)
+                                {
+                                    <tr>
+                                        <td>@recipe.Name</td>
+                                        <td>
+                                            <a class="btn btn-danger pull-right" role="button" asp-controller="Recipe" asp-action="Delete" asp-route-name=@recipe.Name asp-route-force=@true><i class="fa fa-remove"></i></a>
+                                            <a class="btn btn-primary pull-right" role="button" asp-controller="Recipe" asp-action="Edit" asp-route-name=@recipe.Name asp-route-force=@true><i class="fa fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><strong>Name</strong></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <a class="btn btn-primary" role="button" asp-controller="Recipe" asp-action="Create"><i class="fa fa-plus"></i></a>
+                    <div class="row">
+                        <div class="col-md-6 align-self-center">
+                            <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing @Model.Count</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
