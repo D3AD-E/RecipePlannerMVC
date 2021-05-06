@@ -195,7 +195,7 @@ namespace LAB_2.Core
         {
             Dictionary<string, object> ingredientsJson = new();
 
-            var descriptionJson = recipe.Description.Split(Environment.NewLine);
+            var descriptionJson = recipe.Description is null? Array.Empty<string>() : recipe.Description.Split(Environment.NewLine);
             ingredientsJson.Add("recipe", descriptionJson);
 
             foreach (var ingredient in recipe.Ingredients)
